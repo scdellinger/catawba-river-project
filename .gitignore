@@ -1,0 +1,5 @@
+venv/
+raw_date.json
+.env
+__pycache__/
+*.pyc
