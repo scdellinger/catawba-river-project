@@ -78,10 +78,14 @@ df = df.sort_values(by='time')
 
 
 # Outlier boolean columns added
-m_dis['discharge_is_outlier'] = m_dis[(m_dis['value'] < -131) & (m_dis['value'] >= 525)]
-m_gau['gauge_is_outlier'] = m_gau[(m_gau['value'] < 0.675) & (m_gau['value'] >= 3.115)]
-m_temp['temperature_is_outlier'] = m_temp[(m_temp['value'] < -7.1875) & (m_temp['value'] >= 36.5125)]
+m_dis['discharge_is_outlier'] = (m_dis['value'] < -131) | (m_dis['value'] > 525)
+m_gau['gauge_is_outlier'] = (m_gau['value'] < 0.675) | (m_gau['value'] > 3.115)
+m_temp['temperature_is_outlier'] = (m_temp['value'] < -7.1875) | (m_temp['value'] >= 36.5125)
 
 discharge = m_dis
 gauge = m_gau
 temperature = m_temp
+
+discharge.to_parquet('data/discharge_clean.parquet')
+gauge.to_parquet('data/gauge_clean.parquet')
+temperature.to_parquet('data/temperature_clean.parquet')
