@@ -27,11 +27,12 @@
 - Approval Status: Can be provisional or approved. Provisional are unverified records, approved have undergone QA, review, and any necessary recalibration.
 - Qualifier: For record of anomalies, data limitations, or the status of the recorded value. "Estimated" values occur when a direct measurement wasn't available for that day (commonly due to ice, equipment issues, or channel/rating-curve instability).
 
----
 
 ## Data Cleaning
 
-- 199 rows of the date show a qualifier of 'ESTIMATED'.
-- There are zero gaps in the discharge data in respect to time.
-- There are 78 missing days of gauge data within its timeframe.
-- there are 6 missing days of temperature data within its timeframe.
+- Discharge (1987-2025): 0 date gaps across the entire record.
+- Gauge height (2001-2025): 78 missing dates, mostly explained below.
+- Temperature (2013-2025): 6 missing dates.
+- 199 discharge records carry an "Estimated" qualifier — see Columns Kept above for what this means. These dates are scattered across 1988-2025 rather than clustered, consistent with sporadic short-term disruptions (ice, equipment, or rating-curve instability) rather than one sustained outage.
+- Cross-referencing gap dates against estimated-discharge dates shows 99% of gauge-height gaps and 50% of temperature gaps occurred on the same days discharge required estimation — strong evidence of a shared disruption (most likely ice or equipment) affecting multiple sensors at the gauge simultaneously. No single date shows all three issues at once, though this isn't surprising given how rare gauge and temperature gaps are individually.
+- Full year-by-month gap breakdown and supporting detail are in `findings.md`.
