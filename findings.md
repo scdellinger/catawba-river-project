@@ -1,4 +1,4 @@
-## Phase 1
+## Phase 2 (Clean and Explore)
 
 #### Estimated
 
@@ -160,6 +160,19 @@ Years/months with gaps and the amounts:
 - Pre-storm baseline: Still being computed. There are a couple spikes before Helene that need to be investigated. Initial assumption is either storm or dam water release.
 - Peak reading of discharge is 19,600(!) ft $^3$/s on 2024-09-27
 
+
+#### Outlier Column Added, DataFrames Parquet 
+
+- Boolean mask column added to each parameter dataframe that records whether or not the value falls below the lower fence or above the upper fence.
+- Data folder created and parquet applied to each dataframe for preservation and stored in the data folder.
+
 ---
 
-## Phase 2
+## Phase 3 (Transform and Pivot)
+
+- Dataframes merged into one wide_df dataframe, merged on time.
+- Column names updated 
+- Monitoring location id and statistical id are consistent for each row (USGA-02137727 and 00003, respectively) so they were dropped from the data frame.
+- 'time' was renamed to 'date' to better reflect that the data shown is the mean for a day, with no timestamp applied.
+- 13,931 rows confirmed. All dates from 1987-11-11 to 2025-12-31 present.
+- Columns reordered so that date appears first (grain of dataframe is one row = one day) and remaining columns are grouped by parameter [discharge, gauge, temp].
