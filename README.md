@@ -1,9 +1,13 @@
-# Catawba River Discharge/Gauge/Temp Analysis
+# The Catawba River in My Lifetime
+
  ---
 
  ## Introduction
 
- This project will look at any trends or interesting information gleaned from the USGS-02137727 monitoring station on the Catawba River. This monitoring station is located in McDowell County NC, just west of the town of Marion. This project will cover three parameters: discharge, gauge, and temperature. Because of the availability of data, these parameters will be starting at three different dates, listed below. With this "rolling start" of data, we will be able to start with any hypotheses, and test their validity as more information is brought in. The data for this project is being pulled from the USGS API.
+- Core Question: How does water level and temperature change throughout the year on the Catawba River?
+
+ This project will look at any trends or interesting information gleaned from the monitoring station on the Catawba River to answer the core question. This monitoring station is located in McDowell County NC, just west of the town of Marion. This project will cover three parameters: discharge, gauge, and temperature. Because of the availability of data, these parameters will be starting at three different dates, listed below. With this "rolling start" of data, we will be able to start with any hypotheses, and test their validity as more information is brought in. The data for this project is being pulled from the USGS API.
+
 ## Clarifications
 
 #### Parameter codes and date ranges
