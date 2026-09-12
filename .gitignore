@@ -1,5 +1,5 @@
 venv/
-raw_date.json
+raw_data.json
 .env
 __pycache__/
 *.pyc
