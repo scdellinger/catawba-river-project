@@ -4,3 +4,4 @@ raw_date.json
 __pycache__/
 *.pyc
 data/
+.DS_store

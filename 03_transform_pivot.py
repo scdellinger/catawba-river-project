@@ -27,4 +27,6 @@ wide_df = wide_df[['date',
                    'temp_value', 'temp_units', 'temp_qualifier', 'temp_is_outlier'
 ]]
 
+   # file transformation. parquet for exploratory work, csv for tableau
 wide_df.to_parquet('data/wide_df_clean.parquet')
+wide_df.to_csv('data/catawba_wide.csv', index=False)

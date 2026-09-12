@@ -34,16 +34,6 @@ u_tightened_fence = q3 + (iqr * 1)
    # Find outlier years
 outliers = yearly_discharge[yearly_discharge['value'] > u_tightened_fence]   # Produces two high outlier years with a tightened fence
 
-   # Show a bar graph with quartiles and outlier thresholds. 
-ax = yearly_discharge.plot(x='year', y='value', kind='bar')
-ax.axhline(y=l_tightened_fence, color='red', linestyle='--', linewidth=1.5, label='Outlier Threshold')
-ax.axhline(y=u_tightened_fence, color='red', linestyle='--', linewidth=1.5)
-ax.axhline(y=71409.05, color='purple', linestyle='--', linewidth=1.5, label='25th percentile')
-ax.axhline(y=88760.00, color='green', linestyle='--', linewidth=1.5, label='50th percentile')
-ax.axhline(y=114062.65, color='orange', linestyle='--', linewidth=1.5, label='75th percentile')
-ax.legend()
-#plt.show()   
-
 # --------------------------------|
 # Monthly discharge investigation |
 # --------------------------------|
@@ -69,17 +59,6 @@ iqr = q3 - q1
 lower_fence = q1 - (iqr * 1.5)
 upper_fence = q3 + (iqr * 1.5)
 high_upper = q3 + (iqr * 3)
-print(upper_fence)
-
-   # Show a bar chart with quartiles and outlier thresholds.
-ax = monthly_discharge.plot(x='year_month', y='value', kind='bar')
-ax.axhline(y=upper_fence, color='red', linestyle='--', linewidth=1.5, label='Medium outliers')
-ax.axhline(y=high_upper, color='red', linestyle='--', linewidth=1.5, label='Extreme outliers')
-ax.axhline(y=4084.25, color='purple', linestyle='--', linewidth=1.5, label='25th percentile')
-ax.axhline(y=6334, color='green', linestyle='--', linewidth=1.5, label='50th percentile')
-ax.axhline(y=9669.25, color='orange', linestyle='--', linewidth=1.5, label='75th percentile')
-ax.legend()
-#plt.show()
 
    # Finding year_month of medium and high outliers, also see count by year.
 med_outliers = df[(df['value'] >= upper_fence) & (df['value'] < high_upper)]
@@ -101,17 +80,6 @@ iqr = q3 - q1
 lower_fence = q1 - (iqr * 1.5)
 upper_fence = q3 + (iqr * 1.5)
 
-   # Show a bar chart with quartiles and outlier thresholds.
-ax = by_month.plot(x='month', y='value', kind='bar')
-ax.axhline(y=244715.15, color='purple', linestyle='--', linewidth=1.5, label='25th percentile')
-ax.axhline(y=292839.9, color='green', linestyle='--', linewidth=1.5, label='50th percentile')
-ax.axhline(y=333623.65, color='orange', linestyle='--', linewidth=1.5, label='75th percentile')
-ax.axhline(y=lower_fence, color='red', linestyle='--', linewidth=1.5, label='Low Outliers')
-ax.axhline(y=upper_fence, color='red', linestyle='--', linewidth=1.5, label='High Outliers')
-ax.legend()
-#plt.show()
-
-
    # Look at non hurricane months to see if the statistics change.
 hurricane_months = pd.PeriodIndex(['2004-09', '2018-05', '2018-10', '2024-09'], freq=('M'))   # List of months with confirmed hurricane remnant activity
 non_hurricane = df[~df['year_month'].isin(hurricane_months)]  
@@ -121,19 +89,21 @@ non_hurricane = non_hurricane.groupby('year_month')['value'].sum().reset_index(n
 #print(non_hurricane['value'].kurt())
 #print(non_hurricane.describe())
 
-
+   # look at the highest day from each month compared to the months total. How much of the month's mean is concentrated in one day?
 concentration = df.groupby('year_month')['value'].max() / df.groupby('year_month')['value'].sum()
 #print(concentration.sort_values(ascending=False).head(10))
 
-
+   # Compare hurricane season (June 01 - November 30) to months outside of hurricane season, and how many are in each.
 monthly_discharge['month'] = monthly_discharge['year_month'].dt.month
 hurricane_months = [6, 7, 8, 9, 10, 11]
 hurricane_season = monthly_discharge[monthly_discharge['month'].isin(hurricane_months)]
 not_hurricane_season = monthly_discharge[~monthly_discharge['month'].isin(hurricane_months)]
-print(len(hurricane_season))
-print(len(not_hurricane_season))
-print(len(hurricane_season[hurricane_season['value'] > 18046.75]))
-print(len(not_hurricane_season[not_hurricane_season['value'] > 18046.75]))
+
+   # compare the number of months in and out of hurricane season and how many outliers are in each
+#print(len(hurricane_season))
+#print(len(not_hurricane_season))
+#print(len(hurricane_season[hurricane_season['value'] > 18046.75]))
+#print(len(not_hurricane_season[not_hurricane_season['value'] > 18046.75]))
 
 
 # ------------------------------|
@@ -143,10 +113,14 @@ print(len(not_hurricane_season[not_hurricane_season['value'] > 18046.75]))
    # Look at daily discharge and see any trends
 daily_discharge = pd.read_parquet('data/discharge_clean.parquet')
 daily_discharge = daily_discharge.rename(columns={'time': 'date'})[['date', 'value']]
+
+   # Add columns for different sorting uses
 daily_discharge['year_month'] = daily_discharge['date'].dt.to_period('M')
 daily_discharge['year'] = daily_discharge['date'].dt.year
 daily_discharge['month'] = daily_discharge['date'].dt.month
 hurricane_months = [6, 7, 8, 9, 10, 11]
+
+   # compare number of days in and out of hurricane season and how many outliers are in each
 hurricane_season = daily_discharge[daily_discharge['month'].isin(hurricane_months)]
 not_hurricane_season = daily_discharge[~daily_discharge['month'].isin(hurricane_season)]
 #print(daily_discharge.sort_values(by='value', ascending=False).head(50))
@@ -157,3 +131,84 @@ not_hurricane_season = daily_discharge[~daily_discharge['month'].isin(hurricane_
 
 #print(len(hurricane_season[hurricane_season['value'] > 771]))
 #print(len(not_hurricane_season[not_hurricane_season['value'] > 771]))
+
+
+#-----------------------------|
+# Yearly Gauge Investigation  |
+#-----------------------------|
+
+df = pd.read_parquet('data/gauge_clean.parquet')
+df = df.rename(columns={'time': 'date'})[['date', 'value', 'gauge_is_outlier']]
+
+   # Add year, year_month, month columns for deeper analysis
+df['year'] = df['date'].dt.year
+df['year_month'] = df['date'].dt.to_period('M')
+df['month'] = df['date'].dt.month
+#print(df.head(10))
+
+   # .kurt() and .describe()
+#print(df['value'].kurt())
+#print(df['value'].describe())
+
+q1 = 1.59
+q3 = 2.2
+iqr = q3 - q1
+lower_fence = q1 - (iqr * 1.5)
+upper_fence = q3 + (iqr * 1.5)
+extreme_fence = q3 + (iqr * 3)
+
+#print('Outliers below lower fence:', len(df[df['value'] <= lower_fence]))
+#print('1st quartile:', len(df[df['value'] < 1.59]))
+#print('2nd quartile:', len(df[(df['value'] >= 1.59) & (df['value'] < 1.88)]))
+#print('3rd quartile:', len(df[(df['value'] >= 1.88) & (df['value'] < 2.2)]))
+#print('4th quartile:', len(df[df['value'] >= 2.2]))
+#print('Outliers above 75% and below upper fence:', len(df[(df['value'] >= 2.2) & (df['value'] < upper_fence)]))
+#print('Outliers above upper fence and below extreme fence:', len(df[(df['value'] >= upper_fence) & (df['value'] < extreme_fence)]))
+#print('Outliers above extreme fence:', len(df[df['value'] >= extreme_fence]))
+
+   # Find what percentage of gauge readings are at different levels of outliers
+med_outlier_perc = (247 / 8780) * 100
+extreme_outlier_perc = (151 / 8780) * 100
+#print(f"Medium outlier percentage of total gauge readings: {med_outlier_perc:.2f}%")
+#print(f"Extreme outlier percentage of total gauge readings: {extreme_outlier_perc:.2f}%")
+
+   # Create gauge outlier dataframe
+gauge_outliers = df[df['gauge_is_outlier'] == True]
+#print(gauge_outliers.head(10))
+
+   # Calculate outlier count by year
+outlier_by_year = gauge_outliers.groupby('year')['value'].count().reset_index(name='outlier_count')
+#print(outlier_by_year.sort_values(by='outlier_count'))
+#print(outlier_by_year['outlier_count'].dtype)
+
+   # Calculate outlier count by month of year
+outlier_by_month = gauge_outliers.groupby('month')['value'].count().reset_index(name='outlier_count')
+#print(outlier_by_month.sort_values(by='outlier_count'))
+
+   # Helene gauge and discharge comparison analysis
+helene_date_range = pd.date_range(start='2024-09-20', end='2024-10-31')
+helene_data = pd.read_parquet('data/discharge_clean.parquet').merge(pd.read_parquet('data/gauge_clean.parquet'), on='time')
+helene_data = helene_data[helene_data['time'].isin(helene_date_range)][['time', 'value_x', 'value_y']]
+helene_data = helene_data.sort_values(by='time')
+helene_data['discharge_change'] = (helene_data['value_x']) - (helene_data['value_x'].shift(1))
+helene_data['gauge_change'] = (helene_data['value_y']) - (helene_data['value_y'].shift(1))
+ax = helene_data.plot(x='time', y='discharge_change', kind='line', color='red')
+helene_data.plot(x='time', y='gauge_change', color='blue', secondary_y=True, ax=ax)
+#plt.show()
+
+   # Fresh data pull to look at non hurricane september and october temps to compare to 2024 september and october temps
+helene_data = helene_data.merge(pd.read_parquet('data/temperature_clean.parquet'), on='time', how='left')[['time', 'value_x', 'value_y', 'value', 'discharge_change', 'gauge_change']]
+helene_data['temp_change'] = (helene_data['value']) - (helene_data['value'].shift(1))
+#print(helene_data)
+
+temp = pd.read_parquet('data/temperature_clean.parquet')
+temp['month'] = temp['time'].dt.month
+sep_temp = temp[temp['month'].isin([9])]
+oct_temp = temp[temp['month'].isin([10])]
+sep_temp = sep_temp.sort_values(by='time')[['time', 'value']]
+oct_temp = oct_temp.sort_values(by='time')[['time', 'value']]
+#print(sep_temp.iloc[30:60])
+#print(oct_temp.iloc[31:61])
+
+temp = pd.read_parquet('data/temperature_clean.parquet')
+print(temp['value'].kurt())

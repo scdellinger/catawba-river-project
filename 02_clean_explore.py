@@ -89,3 +89,4 @@ temperature = m_temp
 discharge.to_parquet('data/discharge_clean.parquet')
 gauge.to_parquet('data/gauge_clean.parquet')
 temperature.to_parquet('data/temperature_clean.parquet')
+
