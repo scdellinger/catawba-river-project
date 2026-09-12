@@ -75,7 +75,7 @@ catawba_river_project/
 ├── 02_clean_explore.py          # Cleaning, outlier detection, EDA
 ├── 03_transform_pivot.py        # Wide-format pivot, merged dataset
 ├── 04_exploratory_analysis.py   # Yearly/monthly/daily investigation
-├── 05_visualizations.py         # Final chart generation
+├── 05_visualization.py         # Final chart generation
 ├── data/                        # Cleaned parquet checkpoints (gitignored)
 ├── visuals/                     # Saved chart outputs (.png)
 ├── notes/
