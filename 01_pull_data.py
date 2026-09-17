@@ -32,7 +32,5 @@ while True:
     if next_found == False:
         break
 
-with open('ras_data.json', 'w') as f:
+with open('raw_data.json', 'w') as f:
     json.dump(all_features, f)
-
-
