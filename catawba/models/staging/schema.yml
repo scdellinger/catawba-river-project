@@ -1,0 +1,87 @@
+version: 2
+
+models:
+  - name: stg_raw_readings
+    description: "Flattened raw readings. Joined seeds for parameter/statistical/monitoring location. One row per reading."
+    columns: 
+      - name: time_series_id
+        description: "This is the unique identifier for parameter, calculation type, and location for this reading."
+        tests:
+          - not_null
+      - name: monitoring_location_id
+        description: "This is the identifier for the gauge located as Pleasant Gardens - NC."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('monitoring_station_ids')
+                field: monitoring_location_id  
+          - accepted_values:
+              values: ["USGS-02137727"]
+      - name: location_description
+        description: "This is the verbal description of the monitoring location."
+        tests:
+          - not_null
+      - name: parameter_code
+        description: "This is the code what what is being measured."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('parameter_codes')
+                field: parameter_code
+          - accepted_values:
+              values: ['00010', '00060', '00065']
+      - name: parameter_description
+        description: "This is the verbal description of what is being measured"
+        tests:
+          - not_null
+      - name: statistic_id
+        description: "This is the identifier of how the measurement is calculated."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('statistical_ids')
+                field: statistic_id
+          - accepted_values:
+              values: ['00001', '00002', '00003']
+      - name: statistical_description
+        description: "This is the verbal description of how the measurement is being calculated."
+        tests:
+          - not_null
+      - name: time
+        description: "This is the timestamp of the reading for this row."
+        tests:
+          - not_null
+      - name: value
+        description: "This is the value of the reading for this row."
+        tests:
+          - not_null
+      - name: unit_of_measure
+        description: "This is the unit of measure for the reading of this row."
+        tests:
+          - not_null
+      - name: approval_status
+        description: "This is the approval status of the reading for this row."
+        tests:
+          - not_null
+      - name: qualifier
+        description: "This lists any qualifiers for the reading for this row."
+      - name: last_modified
+        description: "This is the timestamp for the last time this reading was modified."
+        tests:
+          - not_null
+      - name: longitude
+        description: "This is the longitudinal value of the gauge position."
+        tests:
+          - not_null
+      - name: latitude
+        description: "This is the latitudinal value of the gauge position."
+        tests:
+          - not_null
+      - name: feature_id
+        description: "This the unique address for this reading for look up by USGS database."
+        tests:
+          - not_null
+          - unique

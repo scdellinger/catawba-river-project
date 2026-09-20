@@ -211,4 +211,7 @@ oct_temp = oct_temp.sort_values(by='time')[['time', 'value']]
 #print(oct_temp.iloc[31:61])
 
 temp = pd.read_parquet('data/temperature_clean.parquet')
-print(temp['value'].kurt())
+#print(temp['value'].kurt())
+
+wide = pd.read_parquet('data/wide_df_clean.parquet')
+print(wide['temp_value'].dtype)

@@ -1,0 +1,4 @@
+parameter_code,parameter_description
+00065,"Gauge height in feet"
+00060,"Discharge in cubic feet per second"
+00010,"Water temperature in degrees Celsius"

@@ -20,6 +20,3 @@ if result is None:
     verify_load(con, 'raw_readings', 0, 'data/long_format.parquet')
 else:
     print("raw_readings table already exists, no action taken.")
-
-
-con.sql("SELECT * FROM raw_readings LIMIT 5").show()
