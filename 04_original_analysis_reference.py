@@ -122,15 +122,15 @@ hurricane_months = [6, 7, 8, 9, 10, 11]
 
    # compare number of days in and out of hurricane season and how many outliers are in each
 hurricane_season = daily_discharge[daily_discharge['month'].isin(hurricane_months)]
-not_hurricane_season = daily_discharge[~daily_discharge['month'].isin(hurricane_season)]
+not_hurricane_season = daily_discharge[~daily_discharge['month'].isin(hurricane_months)]
 #print(daily_discharge.sort_values(by='value', ascending=False).head(50))
 
    # .kurt() and .describe()
 #print(daily_discharge['value'].kurt())
 #print(daily_discharge['value'].describe())      
 
-#print(len(hurricane_season[hurricane_season['value'] > 771]))
-#print(len(not_hurricane_season[not_hurricane_season['value'] > 771]))
+print(len(hurricane_season[hurricane_season['value'] >= 525]))
+print(len(not_hurricane_season[not_hurricane_season['value'] >= 525]))
 
 
 #-----------------------------|
