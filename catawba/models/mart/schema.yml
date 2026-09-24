@@ -1,0 +1,81 @@
+# Final models
+#   - discharge total by year -> yearly_discharge.sql
+#   - discharge total by month -> monthly_discharge.sql
+#   - discharge total by month of year -> calendar_month_discharge.sql
+#   - Helene 30-day discharge and gauge height -> helene_discharge_height.sql
+#   - Hurricane vs non-hurricane daily outliers -> hurricane_season_comparison_d.sql
+#   - Hurricane vs non-hurricane monthly outliers ->
+
+version: 2
+
+models:
+  - name: yearly_discharge
+    description: "The total discharge per year for the life of the data, ordered by year."
+    columns:
+      - name: year 
+        description: "The calendar year."
+        tests:
+          - unique
+      - name: total_discharge
+        description: "The total discharge for the given year."
+        tests:
+          - not_null
+  - name: monthly_discharge
+    description: "Total discharge per month for the life of the data, ordered by month."
+    columns:
+      - name: month_year
+        description: "The month/year pair."
+        tests:
+          - unique
+      - name: total_discharge
+        description: "The total discharge for the given month_year."
+        tests:
+          - not_null
+  - name: calendar_month_discharge
+    description: "The total discharge per calendar month for the life of the data, ordered by calendar month."
+    columns:
+      - name: month
+        description: "The calendar month."
+        tests:
+          - unique
+      - name: total_discharge
+        description: "The total discharge for the month of the year."
+        tests:
+          - not_null
+  - name: helene_discharge_height
+    description: "Discharge and gauge height on days around hurricane Helene, 2024-09-20 to 2024-10-20."
+    columns:
+      - name: date
+        description: "Day reading."
+        tests:
+          - unique
+      - name: discharge_value
+        description: "Discharge reading for day."
+        tests:
+          - not_null
+      - name: gauge_value
+        description: "Gauge hight reading for day"
+        tests:
+          - not_null
+  - name: hurricane_outlier_comparison_d
+    description: "Counts daily discharge outliers both in hurricane season and outside of hurricane season."
+    columns:
+      - name: in_season_outliers
+        description: "Number of daily outliers in hurricane season.."
+        tests:
+          - not_null
+      - name: not_in_season_outliers
+        description: "Number of daily outliers not in hurricane season."
+        tests:
+          - not_null
+  - name: hurricane_outlier_comparison_m
+    description: "Counts monthly discharge outliers both in hurricane season and outside of hurricane season."
+    columns: 
+      - name: in_season_outliers
+        description: "Number of monthly outliers in hurricane season."
+        tests:
+          - not_null
+      - name: not_in_season_outliers
+        description: "Number of monthly outliers not in hurricane season."
+        tests:
+          - not_null

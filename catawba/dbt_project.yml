@@ -33,5 +33,7 @@ models:
   catawba:
     staging:
       +materialized: view
+    intermediate:
+      +materialized: view
     mart:
       +materialized: table
