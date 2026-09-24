@@ -17,7 +17,8 @@ models:
                 to: ref('monitoring_station_ids')
                 field: monitoring_location_id  
           - accepted_values:
-              values: ["USGS-02137727"]
+              arguments:
+                values: ["USGS-02137727"]
       - name: location_description
         description: "This is the verbal description of the monitoring location."
         tests:
@@ -31,7 +32,8 @@ models:
                 to: ref('parameter_codes')
                 field: parameter_code
           - accepted_values:
-              values: ['00010', '00060', '00065']
+              arguments:
+                values: ['00010', '00060', '00065']
       - name: parameter_description
         description: "This is the verbal description of what is being measured"
         tests:
@@ -45,7 +47,8 @@ models:
                 to: ref('statistical_ids')
                 field: statistic_id
           - accepted_values:
-              values: ['00001', '00002', '00003']
+              arguments:
+                values: ['00001', '00002', '00003']
       - name: statistical_description
         description: "This is the verbal description of how the measurement is being calculated."
         tests:
@@ -85,3 +88,7 @@ models:
         tests:
           - not_null
           - unique
+      - name: date_loaded
+        description: "This is the date the this row was loaded into the warehouse."
+        tests:
+          - not_null

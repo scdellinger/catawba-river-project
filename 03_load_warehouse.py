@@ -15,8 +15,12 @@ con = ddb.connect('catawba.db')
 result = con.execute(
     "SELECT table_name FROM information_schema.tables WHERE table_name = 'raw_readings'").fetchone()[0]
 
+
 if result is None: 
     con.execute("CREATE TABLE raw_readings AS SELECT * FROM 'data/long_format.parquet'")
     verify_load(con, 'raw_readings', 0, 'data/long_format.parquet')
 else:
-    print("raw_readings table already exists, no action taken.")
+    con.execute("CREATE OR REPLACE TABLE raw_readings AS SELECT *, CURRENT_TIMESTAMP AS date_loaded FROM 'data/long_format.parquet'")
+
+assert con.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'raw_readings' AND column_name = 'date_loaded'").fetchone() is not None, (
+        "Column date_loaded does not exist")

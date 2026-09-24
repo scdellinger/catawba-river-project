@@ -5,4 +5,8 @@ sources:
     schema: main
     tables:
       - name: raw_readings
+        loaded_at_field: date_loaded
+        freshness: 
+          warn_after: {count: 9, period: day}
+          error_after: {count: 12, period: day}
     

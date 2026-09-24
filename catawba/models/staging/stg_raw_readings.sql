@@ -14,7 +14,8 @@ SELECT
     r.last_modified::timestamp AS last_modified,
     r.longitude,
     r.latitude,
-    r.feature_id
+    r.feature_id,
+    r.date_loaded
 FROM {{ source('raw', 'raw_readings') }} r
 LEFT JOIN {{ ref('parameter_codes') }} p
 ON r.parameter_code = p.parameter_code
