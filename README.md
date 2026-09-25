@@ -228,6 +228,15 @@ disturbance.
   analysis (gauge-to-discharge ratio during extreme events), or extend
   the hurricane-exclusion baseline methodology across the full record
 
+## Project Evolution & Current Progress
+
+This project is evolving from a baseline Python and Pandas exploratory script into a production-grade modern data stack. The architecture has been re-engineered to utilize enterprise-level tools for better performance, data quality, and scalability:
+
+*   Analytical Storage (DuckDB): Migrated file-based Pandas steps to an in-process columnar database to leverage rapid OLAP execution.
+*   Data Modeling (dbt): Shifted Python business logic into modular, version-controlled SQL models, complete with data quality tests and schema documentation.
+*   Orchestration: Scheduled automated refresh pipelines via cron to routinely handle incremental ingestion pulls.
+*   Downstream BI (Power BI Desktop): Currently designing an interactive reporting dashboard hosted on a local Windows virtual machine to visualize time-series discharge fluctuations, seasonal trends, and hurricane-driven anomalies.
+
 ## References
 
 [^1]: U.S. Geological Survey. (2026). *Provisional Data Statement - USGS
