@@ -227,6 +227,7 @@ disturbance.
 - Future extensions could incorporate a rating-curve/overbank-flow
   analysis (gauge-to-discharge ratio during extreme events), or extend
   the hurricane-exclusion baseline methodology across the full record
+- The addition of multiple monitoring locations along the Catawba River  
 
 ## Project Evolution & Current Progress
 
