@@ -233,10 +233,19 @@ disturbance.
 
 This project is evolving from a baseline Python and Pandas exploratory script into a production-grade modern data stack. The architecture has been re-engineered to utilize enterprise-level tools for better performance, data quality, and scalability:
 
-*   Analytical Storage (DuckDB): Migrated file-based Pandas steps to an in-process columnar database to leverage rapid OLAP execution.
-*   Data Modeling (dbt): Shifted Python business logic into modular, version-controlled SQL models, complete with data quality tests and schema documentation.
-*   Orchestration: Scheduled automated refresh pipelines via cron to routinely handle incremental ingestion pulls.
-*   Downstream BI (Power BI Desktop): Currently designing an interactive reporting dashboard hosted on a local Windows virtual machine to visualize time-series discharge fluctuations, seasonal trends, and hurricane-driven anomalies.
+-   Analytical Storage (DuckDB): Migrated file-based Pandas steps to an in-process columnar database to leverage rapid OLAP execution.
+-   Data Modeling (dbt): Shifted Python business logic into modular, version-controlled SQL models, complete with data quality tests and schema documentation.
+-   Orchestration: Scheduled automated refresh pipelines via cron to routinely handle incremental ingestion pulls.
+-   Downstream BI (Power BI Desktop): Currently designing an interactive reporting dashboard hosted on a local Windows virtual machine to visualize time-series discharge fluctuations, seasonal trends, and hurricane-driven anomalies.
+
+## Project Release History
+
+v1.0.0 — Final delivery of the original project (data cleaning/exploration → transform phase, wrapped as the initial portfolio piece).
+v1.1.0 — Restructured ingestion to output a flat, long-format table; dropped the old phase_03 pivot/merge step.
+v1.3.0 — Warehouse load phase complete (DuckDB loading finished).
+v1.4.0 — dbt staging layer complete.
+v1.5.0 — dbt intermediate and mart layers complete.
+v1.6.0 — Dynamic dates and source freshness added. 
 
 ## References
 
